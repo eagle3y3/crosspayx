@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  kinto-web-sdk:
+    specifier: ^1.0.2
+    version: 1.0.2
   next:
     specifier: 14.2.7
     version: 14.2.7(react-dom@18.3.1)(react@18.3.1)
@@ -1845,6 +1848,12 @@ packages:
       json-buffer: 3.0.1
     dev: true
 
+  /kinto-web-sdk@1.0.2:
+    resolution: {integrity: sha512-IiPmfdBFY552lebOChpL7cVWq0yFBSt8Cb6gWnW1Lo63CuAjVn404XWql897N+8HWxB7m2psbZH0+APtU0B8yw==}
+    dependencies:
+      typescript: 5.5.4
+    dev: false
+
   /language-subtag-registry@0.3.23:
     resolution: {integrity: sha512-0K65Lea881pHotoGEa5gDlMxt3pctLi2RplBb7Ezh4rRdLEOtgi7n4EwK9lamnUCkKBqaeKRVebTq6BAxSkpXQ==}
     dev: true
@@ -2786,7 +2795,6 @@ packages:
     resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
