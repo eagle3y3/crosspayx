@@ -26,7 +26,17 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {children}
+        <div className="flex">
+          <SideNav />
+
+          <main className="flex-1">
+            <MaxWidthWrapper>
+              <Header />
+              <HeaderMobile />
+              <PageWrapper>{children}</PageWrapper>
+            </MaxWidthWrapper>
+          </main>
+        </div>
       </body>
     </html>
   );
