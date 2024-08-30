@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import Header from "@/components/ui/Header";
+import HeaderMobile from "@/components/ui/HeaderMobile";
+import PageWrapper from "@/components/PageWrapper";
+import SideNav from "@/components/ui/SideNav";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,14 +27,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "relative min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
       >
         <div className="flex">
           <SideNav />
 
-          <main className="flex-1">
+          <main className="flex-1 bg-white">
             <MaxWidthWrapper>
               <Header />
               <HeaderMobile />

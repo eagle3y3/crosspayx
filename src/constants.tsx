@@ -5,13 +5,13 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Search",
     path: "/",
-    icon: <Image src="/search.svg" height={30} width={30} alt="Search" />,
+    icon: <Image src="/next.svg" height={30} width={30} alt="Search" />,
   },
 
   {
     title: "Transaction Historys",
     path: "/inbox",
-    icon: <Image src="/inbox.svg" height={30} width={30} alt="Transactions" />,
+    icon: <Image src="/vercel.svg" height={30} width={30} alt="Transactions" />,
   },
   {
     title: "Organizations",

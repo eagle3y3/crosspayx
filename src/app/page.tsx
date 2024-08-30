@@ -231,7 +231,6 @@ export default function Home() {
       {accountInfo?.walletAddress ? (
         <>
           <Dashboard />
-          <div>{accountInfo.walletAddress}</div>
         </>
       ) : (
         <Button variant={"outline"} onClick={() => kintoLogin()}>

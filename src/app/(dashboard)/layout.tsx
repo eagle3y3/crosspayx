@@ -1,10 +1,12 @@
+import PageWrapper from "@/components/PageWrapper";
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen w-full bg-gray-100">
       {/* Main content area */}
       <div className="flex-1 flex flex-col">
         {/* Top Navbar */}

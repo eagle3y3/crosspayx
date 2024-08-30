@@ -31,7 +31,8 @@ function SideNav() {
                 pathname === item.path
                   ? "bg-muted hover:bg-muted"
                   : "hover:bg-transparent hover:underline",
-                "justify-start"
+                "justify-start",
+                "text-red-500"
               )}
             >
               <div className="pr-3">{item.icon}</div>
