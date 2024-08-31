@@ -19,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        custom: "0 4px 8px 2px rgba(0, 0, 0, 0.25)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

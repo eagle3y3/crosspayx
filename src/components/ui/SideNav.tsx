@@ -11,15 +11,15 @@ function SideNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed hidden h-screen flex-1 border-r border-zinc-200 bg-white md:flex md:w-60">
-      <div className="flex w-full flex-col space-y-6">
+    <div className="fixed hidden h-screen border-l border-zinc-200 bg-white md:flex md:w-30 overflow-hidden">
+      <div className="flex flex-col space-y-6">
         <Link
           href="/"
-          className="flex h-12 w-full flex-row items-center justify-center space-x-3 border-b border-zinc-200 md:justify-start md:px-6"
+          className="flex h-12 w-full flex-row items-center justify-center  border-zinc-200 md:justify-start md:px-3"
         >
-          <Image src={"/logo.png"} height={35} width={35} alt="logo plane" />
-
-          <span className="hidden text-xl font-bold md:flex">EmployPilot</span>
+          <span className="hidden text-xl font-bold md:flex text-black">
+            CrossPayX
+          </span>
         </Link>
         {SIDENAV_ITEMS.map((item) => {
           return (
@@ -32,10 +32,10 @@ function SideNav() {
                   ? "bg-muted hover:bg-muted"
                   : "hover:bg-transparent hover:underline",
                 "justify-start",
-                "text-red-500"
+                "text-slate-800"
               )}
             >
-              <div className="pr-3">{item.icon}</div>
+              <div className="pr-1">{item.icon}</div>
               {item.title}
             </Link>
           );

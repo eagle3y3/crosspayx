@@ -3,24 +3,24 @@ import Image from "next/image";
 
 export const SIDENAV_ITEMS: SideNavItem[] = [
   {
-    title: "Search",
+    title: "Home",
     path: "/",
-    icon: <Image src="/next.svg" height={30} width={30} alt="Search" />,
+    icon: <Image src="/home.svg" height={25} width={25} alt="Home" />,
   },
 
   {
-    title: "Transaction Historys",
+    title: "History",
     path: "/inbox",
-    icon: <Image src="/vercel.svg" height={30} width={30} alt="Transactions" />,
+    icon: <Image src="/wallet.svg" height={25} width={25} alt="Transactions" />,
   },
   {
     title: "Organizations",
     path: "/prepare",
     icon: (
       <Image
-        src="/prepare.svg"
-        height={30}
-        width={30}
+        src="/orgs.svg"
+        height={25}
+        width={25}
         alt="Read Articles to prepare for interviews"
       />
     ),

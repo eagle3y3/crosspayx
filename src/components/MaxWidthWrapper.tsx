@@ -11,7 +11,7 @@ export const MaxWidthWrapper = ({
   return (
     <div
       className={cn(
-        "flex min-h-screen flex-col sm:border-r sm:border-zinc-700 md:ml-60",
+        "flex min-h-screen flex-col sm:border-r sm:border-zinc-700 md:ml-0",
         className
       )}
     >

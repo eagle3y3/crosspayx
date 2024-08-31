@@ -220,18 +220,18 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="flex max-h-screen flex-col items-center justify-center">
         <Loading />
       </div>
     );
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex flex-row justify-between items-stretch md:ml-40">
       {accountInfo?.walletAddress ? (
-        <>
+        <div className="flex-grow">
           <Dashboard />
-        </>
+        </div>
       ) : (
         <Button variant={"outline"} onClick={() => kintoLogin()}>
           {"Create A Wallet"}

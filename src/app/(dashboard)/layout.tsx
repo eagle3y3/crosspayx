@@ -6,9 +6,9 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
-    <div className="flex h-screen w-full bg-gray-100">
+    <div className="flex w-full bg-gray-100">
       {/* Main content area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex flex-col">
         {/* Top Navbar */}
         <header className="bg-white shadow-md p-4 flex justify-between items-center">
           <h2 className="text-xl font-semibold">Dashboard</h2>
