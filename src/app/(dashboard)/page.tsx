@@ -1,16 +1,17 @@
 import React from "react";
-import DashboardLayout from "./layout"; // Adjust the import path as needed
-import PageWrapper from "@/components/PageWrapper";
-import { UserInfo } from "@/components/Dashboard/user-info";
+import { UserInfo } from "@/components/Dashboard/user-info"; // Adjust the import path
+import { KYCViewerInfo } from "@/KYCViewerService"; // Adjust the import path
 
-const DashboardHomePage: React.FC = () => {
+interface DashboardProps {
+  accountInfo: KYCViewerInfo | null;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ accountInfo }) => {
   return (
     <div className="flex flex-row flex-wrap">
-      <UserInfo />
-      <UserInfo />
-      <UserInfo />
+      <UserInfo accountInfo={accountInfo} />
     </div>
   );
 };
 
-export default DashboardHomePage;
+export default Dashboard;

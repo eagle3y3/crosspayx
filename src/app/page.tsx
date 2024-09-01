@@ -227,10 +227,10 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-row justify-between items-stretch md:ml-40">
+    <main className="flex flex-row md:ml-40 md:justify-start items-center justify-center">
       {accountInfo?.walletAddress ? (
-        <div className="flex-grow">
-          <Dashboard />
+        <div className="flex items-center">
+          <Dashboard accountInfo={kycViewerInfo} />
         </div>
       ) : (
         <Button variant={"outline"} onClick={() => kintoLogin()}>
