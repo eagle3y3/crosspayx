@@ -1,0 +1,83 @@
+import React, { useState, useEffect } from "react";
+import { formatTokenBalance } from "@/BlockscoutUtils"; // Adjust the import paths
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+
+interface TokenBalance {
+  balance: string;
+  contractAddress: string;
+  decimals: string;
+  name: string;
+  symbol: string;
+  type: string;
+}
+
+interface TokenDropdownProps {
+  balances: TokenBalance[];
+  isOpen: boolean;
+  toggleDropdown: () => void;
+  loading: boolean;
+}
+
+const TokenInfo: React.FC<TokenDropdownProps> = ({
+  balances,
+  isOpen,
+  toggleDropdown,
+  loading,
+}) => {
+  return (
+    <div className="relative max-w-xs  rounded-xl py-1 shadow-custom border border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50">
+      <div className=" shadow-md ">
+        <Table className=" bg-white rounded-xl min-w-full max-h">
+          <TableHeader className="rounded-t-xl">
+            <TableRow>
+              <TableHead>Token</TableHead>
+              <TableHead>Symbol</TableHead>
+              <TableHead>Balance</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="rounded-b-xl">
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={3}
+                  className="px-6 py-4 text-center text-gray-500"
+                >
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : balances.length > 0 ? (
+              balances.map((token) => (
+                <TableRow key={token.contractAddress} className="bg-white">
+                  <TableCell>{token.name}</TableCell>
+                  <TableCell>{token.symbol}</TableCell>
+                  <TableCell>
+                    {formatTokenBalance(token.balance, token.decimals)}{" "}
+                    {token.symbol}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={3}
+                  className="px-6 py-4 text-center text-gray-500"
+                >
+                  No ERC-20 tokens found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+};
+
+export default TokenInfo;

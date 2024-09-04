@@ -77,6 +77,7 @@ export default function Home() {
   const [destinationKYCInfo, setDestinationKYCInfo] =
     useState<KYCViewerInfo | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const kintoSDK = createKintoSDK("0x60eF862f70983eB631bb5bBDdCc1F7F067f9D2F3");
 
   async function kintoLogin() {
@@ -218,6 +219,11 @@ export default function Home() {
     }
   }, [recipientAddress]);
 
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  console.log(destinationKYCInfo);
+
   if (loading) {
     return (
       <div className="flex max-h-screen flex-col items-center justify-center">
@@ -230,7 +236,16 @@ export default function Home() {
     <main className="flex flex-row md:ml-40 md:justify-start items-center justify-center">
       {accountInfo?.walletAddress ? (
         <div className="flex items-center">
-          <Dashboard accountInfo={kycViewerInfo} />
+          <Dashboard
+            accountInfo={kycViewerInfo}
+            isOpen={isOpen}
+            toggleDropdown={toggleDropdown}
+            tokenBalance={tokenBalances}
+            loading={loading}
+            recipientAddress={recipientAddress}
+            recipientInfo={destinationKYCInfo}
+            setRecipientAddress={setRecipientAddress}
+          />
         </div>
       ) : (
         <Button variant={"outline"} onClick={() => kintoLogin()}>
