@@ -31,10 +31,10 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <div className="flex">
+        <div className="flex min-h-screen w-full">
           <SideNav />
 
-          <main className="flex-1 bg-white">
+          <main className="flex-1 flex flex-col bg-white overflow-hidden">
             <MaxWidthWrapper>
               <Header />
               <HeaderMobile />

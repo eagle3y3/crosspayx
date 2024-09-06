@@ -28,7 +28,7 @@ export function UserInfo({ accountInfo }: UserInfoProps) {
   const flagUrl = `https://GlobalArtInc.github.io/round-flags/flags/${country?.code.toLowerCase()}.svg`;
 
   return (
-    <Card className="relative w-full max-w-xs mx-auto">
+    <Card className="relative flex-grow w-full md:w-1/4 mx-auto md:mx-1 max-w-xs mb-3">
       <CardHeader className="p-3">
         <CardTitle>Wallet</CardTitle>
         <CardDescription className="overflow-x-hidden">

@@ -25,15 +25,7 @@ export default function Header() {
             href="/"
             className="flex flex-row items-center justify-center space-x-3 md:hidden"
           >
-            <Image
-              src={"/logo.png"}
-              height={30}
-              width={30}
-              alt="logo plane"
-              className="w-auto h-auto max-h-[30px] max-w-[30px]"
-            />
-
-            <span className="flex text-xl font-bold ">Header</span>
+            <span className="flex text-xl font-bold ">CrossPayX</span>
           </Link>
         </div>
       </div>

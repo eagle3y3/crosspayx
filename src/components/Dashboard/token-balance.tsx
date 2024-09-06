@@ -32,17 +32,19 @@ const TokenInfo: React.FC<TokenDropdownProps> = ({
   loading,
 }) => {
   return (
-    <div className="relative max-w-xs  rounded-xl py-1 shadow-custom border border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50">
-      <div className=" shadow-md ">
-        <Table className=" bg-white rounded-xl min-w-full max-h">
-          <TableHeader className="rounded-t-xl">
+    <div className="w-full md:w-1/2 max-w-xs mx-auto md:mx-1 mb-3 rounded-xl py-4 shadow-custom border border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50">
+      <div className="shadow-md overflow-x-auto">
+        {/* Added overflow for better table handling */}
+        <Table className="min-w-full rounded-xl">
+          {/* Ensure table takes full width */}
+          <TableHeader>
             <TableRow>
               <TableHead>Token</TableHead>
               <TableHead>Symbol</TableHead>
               <TableHead>Balance</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="rounded-b-xl">
+          <TableBody>
             {loading ? (
               <TableRow>
                 <TableCell
@@ -54,7 +56,7 @@ const TokenInfo: React.FC<TokenDropdownProps> = ({
               </TableRow>
             ) : balances.length > 0 ? (
               balances.map((token) => (
-                <TableRow key={token.contractAddress} className="bg-white">
+                <TableRow key={token.contractAddress}>
                   <TableCell>{token.name}</TableCell>
                   <TableCell>{token.symbol}</TableCell>
                   <TableCell>

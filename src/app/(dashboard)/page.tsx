@@ -14,6 +14,7 @@ interface DashboardProps {
   recipientAddress: string;
   recipientInfo: KYCViewerInfo | null;
   setRecipientAddress: (address: string) => void;
+  destinationKYCError: string | null;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({
@@ -25,9 +26,10 @@ const Dashboard: React.FC<DashboardProps> = ({
   recipientAddress,
   recipientInfo,
   setRecipientAddress,
+  destinationKYCError,
 }) => {
   return (
-    <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-4">
+    <div className="grid grid-cols-1 md:flex md:gap-3 md:items-start md:justify-start w-full">
       <UserInfo accountInfo={accountInfo} />
       <TokenInfo
         balances={tokenBalance}
@@ -39,6 +41,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         recipientAddress={recipientAddress}
         recipientInfo={recipientInfo}
         setRecipientAddress={setRecipientAddress}
+        destinationKYCError={destinationKYCError}
       />
     </div>
   );

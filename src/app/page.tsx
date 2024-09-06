@@ -76,6 +76,9 @@ export default function Home() {
   const [transferAmount, setTransferAmount] = useState<string>("");
   const [destinationKYCInfo, setDestinationKYCInfo] =
     useState<KYCViewerInfo | null>(null);
+  const [destinationKYCError, setDestinationKYCError] = useState<string | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const kintoSDK = createKintoSDK("0x60eF862f70983eB631bb5bBDdCc1F7F067f9D2F3");
@@ -95,7 +98,11 @@ export default function Home() {
     const info = await kycViewer.fetchKYCInfo(
       accountInfo.walletAddress as Address
     );
-    setKYCViewerInfo(info);
+    if (typeof info !== "string") {
+      setKYCViewerInfo(info);
+    } else {
+      setKYCViewerInfo(null);
+    }
   }
 
   async function fetchAccountInfo() {
@@ -181,7 +188,11 @@ export default function Home() {
 
     const kycViewer = KYCViewerService.getInstance();
     const info = await kycViewer.fetchKYCInfo(recipientAddress as Address);
-    setDestinationKYCInfo(info);
+    if (typeof info === "string") {
+      setDestinationKYCError(info);
+    } else {
+      setDestinationKYCInfo(info);
+    }
   };
 
   useEffect(() => {
@@ -196,7 +207,14 @@ export default function Home() {
           const kycInfo = await kycViewer.fetchKYCInfo(
             account.walletAddress as Address
           );
-          setKYCViewerInfo(kycInfo);
+
+          // Check if the kycInfo is of the correct type
+          if (typeof kycInfo === "object" && kycInfo !== null) {
+            setKYCViewerInfo(kycInfo);
+          } else {
+            console.error("Invalid KYC info:", kycInfo);
+            setKYCViewerInfo(null); // Handle it gracefully
+          }
 
           const balances = await getERC20Balances(account.walletAddress);
           setTokenBalances(balances);
@@ -222,8 +240,6 @@ export default function Home() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  console.log(destinationKYCInfo);
-
   if (loading) {
     return (
       <div className="flex max-h-screen flex-col items-center justify-center">
@@ -233,9 +249,11 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-row md:ml-40 md:justify-start items-center justify-center">
+    <main className="flex flex-col md:flex-row md:ml-40 md:justify-start items-start justify-center w-full">
+      {/* Set items-start */}
       {accountInfo?.walletAddress ? (
-        <div className="flex items-center">
+        <div className="w-full">
+          {/* Allow to take full width */}
           <Dashboard
             accountInfo={kycViewerInfo}
             isOpen={isOpen}
@@ -244,6 +262,7 @@ export default function Home() {
             loading={loading}
             recipientAddress={recipientAddress}
             recipientInfo={destinationKYCInfo}
+            destinationKYCError={destinationKYCError}
             setRecipientAddress={setRecipientAddress}
           />
         </div>
