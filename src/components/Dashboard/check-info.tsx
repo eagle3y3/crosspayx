@@ -7,14 +7,7 @@ import {
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
 import { KYCViewerInfo } from "@/KYCViewerService";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LOCATION_ITEMS } from "@/constants";
 import Image from "next/image";
 import { Label } from "../ui/label";
