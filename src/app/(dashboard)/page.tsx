@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { UserInfo } from "@/components/Dashboard/user-info";
 import { KYCViewerInfo } from "@/KYCViewerService";
