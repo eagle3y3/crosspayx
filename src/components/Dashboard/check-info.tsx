@@ -35,8 +35,19 @@ export function CheckInfo({
   setRecipientAddress,
   destinationKYCError,
 }: CheckInfoProps) {
+  function findCountryByNumericCode(numericCode: string | undefined) {
+    if (!numericCode) return undefined; // Handle undefined or empty string case
+
+    const numericCodeStr = numericCode.toString();
+    return LOCATION_ITEMS.find((item) => item.numericCode === numericCodeStr);
+  }
+
+  const country = findCountryByNumericCode(recipientInfo?.getCountry);
+
+  const flagUrl = `https://GlobalArtInc.github.io/round-flags/flags/${country?.code.toLowerCase()}.svg`;
+
   return (
-    <Card className="md:max-w-xs  w-11/12 mx-auto md:mx-1 mb-3">
+    <Card className="relative flex-grow w-full md:w-1/4 mx-auto md:mx-1 max-w-xs mb-3">
       <CardHeader className="p-3">
         <CardTitle>Security Check</CardTitle>
       </CardHeader>
@@ -84,7 +95,6 @@ export function CheckInfo({
                 </p>
               </div>
             </div>
-
             <div className="flex items-start space-x-4 p-2 hover:bg-accent hover:text-accent-foreground rounded-md">
               <PersonIcon className="mt-px h-5 w-5" />
               <div className="space-y-1">
@@ -93,6 +103,32 @@ export function CheckInfo({
                     ? "Corporate Account"
                     : "Individual Account"}
                 </p>
+              </div>
+            </div>
+            <div className="absolute bottom-2 right-2">
+              <div className="relative">
+                <Image
+                  src={flagUrl}
+                  height={25}
+                  width={25}
+                  alt="Country Flag"
+                />
+                <div className="absolute bottom-[-4px] right-[-4px] bg-green-500 rounded-full p-[2px]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3 w-3 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>

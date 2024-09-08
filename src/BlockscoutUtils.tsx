@@ -14,7 +14,7 @@ export async function getERC20Balances(
 ): Promise<TokenBalance[]> {
   try {
     const response = await axios.get(
-      `https://blockscout.kinto.xyz/api?module=account&action=tokenlist&address=${address}`
+      `https://explorer.kinto.xyz/api?module=account&action=tokenlist&address=${address}`
     );
     if (response.data.status === "1" && Array.isArray(response.data.result)) {
       console.log("ERC20 balances:", response.data.result);

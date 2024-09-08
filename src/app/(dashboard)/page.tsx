@@ -4,6 +4,7 @@ import { KYCViewerInfo } from "@/KYCViewerService"; // Adjust the import path
 import { TokenBalance } from "@/BlockscoutUtils";
 import TokenInfo from "@/components/Dashboard/token-balance";
 import { CheckInfo } from "@/components/Dashboard/check-info";
+import Transfer from "@/components/Dashboard/transfer";
 
 interface DashboardProps {
   accountInfo: KYCViewerInfo | null;
@@ -15,6 +16,13 @@ interface DashboardProps {
   recipientInfo: KYCViewerInfo | null;
   setRecipientAddress: (address: string) => void;
   destinationKYCError: string | null;
+  setSelectedToken: (tokenBalance: TokenBalance | null) => void;
+  formatTokenBalance: (balance: string, decimals: string) => string;
+  setTransferAmount: (amount: string) => void;
+  handleTransfer: () => void;
+  selectedToken: TokenBalance | null;
+  transferAmount: string;
+  usdValue: string;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({
@@ -27,6 +35,13 @@ const Dashboard: React.FC<DashboardProps> = ({
   recipientInfo,
   setRecipientAddress,
   destinationKYCError,
+  setSelectedToken,
+  setTransferAmount,
+  formatTokenBalance,
+  handleTransfer,
+  selectedToken,
+  transferAmount,
+  usdValue,
 }) => {
   return (
     <div className="grid grid-cols-1 md:flex md:gap-3 md:items-start md:justify-start w-full">
@@ -42,6 +57,18 @@ const Dashboard: React.FC<DashboardProps> = ({
         recipientInfo={recipientInfo}
         setRecipientAddress={setRecipientAddress}
         destinationKYCError={destinationKYCError}
+      />
+      <Transfer
+        selectedToken={selectedToken}
+        setSelectedToken={setSelectedToken}
+        recipientAddress={recipientAddress}
+        setRecipientAddress={setRecipientAddress}
+        handleTransfer={handleTransfer}
+        transferAmount={transferAmount}
+        tokenBalances={tokenBalance}
+        setTransferAmount={setTransferAmount}
+        formatTokenBalance={formatTokenBalance}
+        usdValue={usdValue}
       />
     </div>
   );

@@ -34,7 +34,7 @@ export default function RootLayout({
         <div className="flex min-h-screen w-full">
           <SideNav />
 
-          <main className="flex-1 flex flex-col bg-white overflow-hidden">
+          <main className="flex-1 flex flex-col bg-white md:overflow-hidden">
             <MaxWidthWrapper>
               <Header />
               <HeaderMobile />

@@ -6,8 +6,10 @@ import {
   Address,
   getContract,
   defineChain,
+  parseUnits,
   createPublicClient,
   http,
+  pad,
 } from "viem";
 import { KYCViewerService, KYCViewerInfo } from "./../KYCViewerService";
 import {
@@ -18,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Loading from "../components/ui/loading";
 import Dashboard from "./(dashboard)/page";
+import { WETH_USD_PRICE_ID } from "@/PythUtils";
 
 interface Transaction {
   to: string;
@@ -45,24 +48,6 @@ const kinto = defineChain({
   },
 });
 
-const counterAbi = [
-  { type: "constructor", inputs: [], stateMutability: "nonpayable" },
-  {
-    type: "function",
-    name: "count",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "increment",
-    inputs: [],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-];
-
 export default function Home() {
   const [accountInfo, setAccountInfo] = useState<KintoAccountInfo | undefined>(
     undefined
@@ -82,34 +67,14 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const kintoSDK = createKintoSDK("0x60eF862f70983eB631bb5bBDdCc1F7F067f9D2F3");
+  const [usdValue, setUsdValue] = useState<string>(""); // USD equivalent
+  const [wethToUsdPrice, setWethToUsdPrice] = useState<number | null>(null); // WETH/USD price
 
   async function kintoLogin() {
     try {
       await kintoSDK.createNewWallet();
     } catch (error) {
       console.error("Failed to login/signup:", error);
-    }
-  }
-
-  async function fetchKYCViewerInfo() {
-    if (!accountInfo?.walletAddress) return;
-
-    const kycViewer = KYCViewerService.getInstance();
-    const info = await kycViewer.fetchKYCInfo(
-      accountInfo.walletAddress as Address
-    );
-    if (typeof info !== "string") {
-      setKYCViewerInfo(info);
-    } else {
-      setKYCViewerInfo(null);
-    }
-  }
-
-  async function fetchAccountInfo() {
-    try {
-      setAccountInfo(await kintoSDK.connect());
-    } catch (error) {
-      console.error("Failed to fetch account info:", error);
     }
   }
 
@@ -126,9 +91,10 @@ export default function Home() {
       setTokenBalances(balances);
     }
   }
+  console.log(selectedToken);
 
   const handleTransfer = async () => {
-    console.log("Attempting transfer");
+    console.log("Attempting transfer via custom contract");
     if (
       !selectedToken ||
       !recipientAddress ||
@@ -140,46 +106,57 @@ export default function Home() {
     }
 
     try {
-      const amount = BigInt(
-        parseFloat(transferAmount) *
-          Math.pow(10, parseInt(selectedToken.decimals))
+      const amount = parseUnits(
+        transferAmount,
+        parseInt(selectedToken.decimals)
       );
+      const tokenSymbol = pad(selectedToken.contractAddress as Address, {
+        size: 32,
+      }); // Replace with actual token symbol
+      const priceId =
+        "0x9d4294bbcd1174d6f2003ec365831e64cc31d9f6f15a2b85399db8d5000960f6"; // Replace with actual price ID
+
+      // Encode the function data for your contract's pay function
       const data = encodeFunctionData({
         abi: [
           {
             inputs: [
               { internalType: "address", name: "recipient", type: "address" },
+              { internalType: "bytes32", name: "tokenSymbol", type: "bytes32" },
               { internalType: "uint256", name: "amount", type: "uint256" },
+              { internalType: "bytes32", name: "priceId", type: "bytes32" },
             ],
-            name: "transfer",
-            outputs: [{ internalType: "bool", name: "", type: "bool" }],
+            name: "pay",
+            outputs: [],
             stateMutability: "nonpayable",
             type: "function",
           },
         ],
-        functionName: "transfer",
-        args: [recipientAddress as Address, amount],
+        functionName: "pay",
+        args: [recipientAddress as Address, tokenSymbol, amount, priceId],
       });
 
-      console.log("Sending transaction");
-      const response = await kintoSDK.sendTransaction([
+      const transactions = [
         {
-          to: selectedToken.contractAddress as Address,
+          to: "0x7f2541bA54d4461EE081544E550Ee28C744C874c" as Address, // Replace with your contract's address
           data,
-          value: BigInt(0),
+          value: BigInt(0), // Assuming your pay function doesn't require sending native currency
         },
-      ]);
+      ];
 
-      console.log("Transfer response:", response);
-      // Refresh token balances after transfer
+      // Send transaction to your custom smart contract
+      const response = await kintoSDK.sendTransaction(transactions);
+
+      console.log("Transaction response:", response);
+
+      // Refresh balances or UI as needed after transaction
       await fetchTokenBalances();
 
-      // Clear input fields after successful transfer
       setTransferAmount("");
       setRecipientAddress("");
       setSelectedToken(null);
     } catch (error) {
-      console.error("Failed to transfer token:", error);
+      console.error("Failed to transfer token via custom contract:", error);
     }
   };
 
@@ -192,6 +169,25 @@ export default function Home() {
       setDestinationKYCError(info);
     } else {
       setDestinationKYCInfo(info);
+    }
+  };
+
+  const fetchWethPriceInUSD = async () => {
+    const url = `https://hermes.pyth.network/v2/updates/price/latest?ids[]=${WETH_USD_PRICE_ID}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.parsed.length > 0) {
+        const priceData = data.parsed[0].price.price; // Raw price
+        const expo = data.parsed[0].price.expo; // Exponent
+
+        // Calculate the final price in USD
+        const wethToUsdPrice = priceData * 10 ** expo; // Since expo is negative, this divides the price
+        setWethToUsdPrice(wethToUsdPrice);
+      }
+    } catch (error) {
+      console.error("Failed to fetch WETH/USD price from Pyth API:", error);
     }
   };
 
@@ -237,6 +233,22 @@ export default function Home() {
     }
   }, [recipientAddress]);
 
+  // Fetch the price when the component mounts
+  useEffect(() => {
+    fetchWethPriceInUSD();
+  }, []);
+
+  // Update USD value whenever the user types in a WETH amount
+  useEffect(() => {
+    if (transferAmount && wethToUsdPrice !== null) {
+      const wethValue = parseFloat(transferAmount);
+      const usdEquivalent = wethValue * wethToUsdPrice;
+      setUsdValue(usdEquivalent.toFixed(2)); // Show with two decimal places
+    } else {
+      setUsdValue(""); // Reset if input is empty or price is not available
+    }
+  }, [transferAmount, wethToUsdPrice]);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -247,6 +259,7 @@ export default function Home() {
       </div>
     );
   }
+  console.log(usdValue);
 
   return (
     <main className="flex flex-col md:flex-row md:ml-40 md:justify-start items-start justify-center w-full">
@@ -264,6 +277,13 @@ export default function Home() {
             recipientInfo={destinationKYCInfo}
             destinationKYCError={destinationKYCError}
             setRecipientAddress={setRecipientAddress}
+            setSelectedToken={setSelectedToken}
+            setTransferAmount={setTransferAmount}
+            formatTokenBalance={formatTokenBalance}
+            handleTransfer={handleTransfer}
+            selectedToken={selectedToken}
+            transferAmount={transferAmount}
+            usdValue={usdValue}
           />
         </div>
       ) : (

@@ -80,7 +80,7 @@ export const LOCATION_ITEMS = [
   { name: "Bangladesh", code: "bd", numericCode: "050" },
   { name: "Barbados", code: "bb", numericCode: "052" },
   { name: "Belarus", code: "by", numericCode: "112" },
-  { name: "Belgium", code: "be", numericCode: "056" },
+  { name: "Belgium", code: "be", numericCode: "32" },
   { name: "Belize", code: "bz", numericCode: "084" },
   { name: "Benin", code: "bj", numericCode: "204" },
   { name: "Bermuda", code: "bm", numericCode: "060" },
