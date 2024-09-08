@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { formatTokenBalance } from "@/BlockscoutUtils"; // Adjust the import paths
 import {
   Table,
@@ -25,12 +25,7 @@ interface TokenDropdownProps {
   loading: boolean;
 }
 
-const TokenInfo: React.FC<TokenDropdownProps> = ({
-  balances,
-  isOpen,
-  toggleDropdown,
-  loading,
-}) => {
+const TokenInfo: React.FC<TokenDropdownProps> = ({ balances, loading }) => {
   return (
     <div className="w-full md:w-1/2 max-w-xs mx-auto md:mx-1 mb-3 rounded-xl py-4 shadow-custom border border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50">
       <div className="shadow-md overflow-x-auto">

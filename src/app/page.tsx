@@ -4,11 +4,8 @@ import { useState, useEffect } from "react";
 import {
   encodeFunctionData,
   Address,
-  getContract,
   defineChain,
   parseUnits,
-  createPublicClient,
-  http,
   pad,
 } from "viem";
 import { KYCViewerService, KYCViewerInfo } from "./../KYCViewerService";
@@ -18,7 +15,7 @@ import {
   TokenBalance,
 } from "./../BlockscoutUtils";
 import { Button } from "@/components/ui/button";
-import Loading from "../components/ui/loading";
+import Loading from "@/components/ui/loading";
 import Dashboard from "./(dashboard)/page";
 import { WETH_USD_PRICE_ID } from "@/PythUtils";
 

@@ -5,7 +5,6 @@ import {
   LockOpen2Icon,
   Cross1Icon,
   ExclamationTriangleIcon,
-  LockOpen1Icon,
 } from "@radix-ui/react-icons";
 import { KYCViewerInfo } from "@/KYCViewerService";
 import {

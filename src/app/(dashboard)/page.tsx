@@ -1,6 +1,6 @@
 import React from "react";
-import { UserInfo } from "@/components/Dashboard/user-info"; // Adjust the import path
-import { KYCViewerInfo } from "@/KYCViewerService"; // Adjust the import path
+import { UserInfo } from "@/components/Dashboard/user-info";
+import { KYCViewerInfo } from "@/KYCViewerService";
 import { TokenBalance } from "@/BlockscoutUtils";
 import TokenInfo from "@/components/Dashboard/token-balance";
 import { CheckInfo } from "@/components/Dashboard/check-info";
