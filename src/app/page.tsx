@@ -16,7 +16,7 @@ import {
 } from "./../BlockscoutUtils";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/ui/loading";
-import Dashboard from "./(dashboard)/page";
+import Dashboard from "./(dashboard)/anything";
 import { WETH_USD_PRICE_ID } from "@/PythUtils";
 
 interface Transaction {
