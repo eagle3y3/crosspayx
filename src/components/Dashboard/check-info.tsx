@@ -38,7 +38,8 @@ export function CheckInfo({
   function findCountryByNumericCode(numericCode: string | undefined) {
     if (!numericCode) return undefined; // Handle undefined or empty string case
 
-    const numericCodeStr = numericCode.toString();
+    const numericCodeStr = numericCode.toString().padStart(3, "0"); // Pad with leading zero if needed
+
     return LOCATION_ITEMS.find((item) => item.numericCode === numericCodeStr);
   }
 

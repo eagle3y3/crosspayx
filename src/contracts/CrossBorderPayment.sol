@@ -16,9 +16,14 @@ contract CrossBorderPayment is Ownable, ReentrancyGuard {
     bytes32[] public stablecoinList;
 
     
-    constructor(address _WETHAddress, address priceConsumerAddress, address initialOwner) Ownable(initialOwner){
+    constructor(address _WETHAddress, address priceConsumerAddress, address initialOwner) Ownable(initialOwner) {
         WETHAddress = _WETHAddress;
         priceConsumer = PythPriceConsumer(priceConsumerAddress);
+
+        // Add WETH to the stablecoins mapping automatically
+        bytes32 wethSymbol = keccak256(abi.encodePacked("WETH"));
+        stablecoins[wethSymbol] = WETHAddress;
+        stablecoinList.push(wethSymbol);
     }
     
 
@@ -36,30 +41,19 @@ contract CrossBorderPayment is Ownable, ReentrancyGuard {
         return stablecoinList;
     }
 
-    // Function to execute cross-border payments in WETH or stablecoins
+   // Function to execute cross-border payments in WETH or stablecoins
     function pay(address recipient, bytes32 tokenSymbol, uint256 amount, bytes32 priceId) public nonReentrant {
-        address tokenAddress;
-
-        // Use WETH address if the tokenSymbol matches
-        if (tokenSymbol == keccak256(abi.encodePacked("WETH"))) {
-            tokenAddress = WETHAddress;
-        } else {
-            // Get the stablecoin address from the mapping
-            tokenAddress = stablecoins[tokenSymbol];
-        }
+        address tokenAddress = stablecoins[tokenSymbol];
 
         require(tokenAddress != address(0), "Unsupported or invalid stablecoin");
 
         IERC20 token = IERC20(tokenAddress);
 
-        // Check if the contract is approved to spend the amount of tokens
         uint256 allowance = token.allowance(msg.sender, address(this));
         require(allowance >= amount, "Insufficient token allowance. Call approve() first.");
 
-        // Transfer the token from the sender to the recipient
         require(token.transferFrom(msg.sender, recipient, amount), "Token transfer failed");
 
-        // Convert to USD equivalent using Pyth price data
         uint256 amountInUSD = convertToUSD(priceId, amount);
 
         emit PaymentExecuted(msg.sender, recipient, amount, amountInUSD, tokenSymbol);

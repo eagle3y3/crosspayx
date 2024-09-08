@@ -91,7 +91,6 @@ export default function Home() {
       setTokenBalances(balances);
     }
   }
-  console.log(selectedToken);
 
   const handleTransfer = async () => {
     console.log("Attempting transfer via custom contract");
@@ -259,7 +258,6 @@ export default function Home() {
       </div>
     );
   }
-  console.log(usdValue);
 
   return (
     <main className="flex flex-col md:flex-row md:ml-40 md:justify-start items-start justify-center w-full">
