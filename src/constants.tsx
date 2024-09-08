@@ -10,12 +10,12 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
 
   {
     title: "History",
-    path: "/inbox",
+    path: "/",
     icon: <Image src="/wallet.svg" height={25} width={25} alt="Transactions" />,
   },
   {
     title: "Organizations",
-    path: "/prepare",
+    path: "/",
     icon: (
       <Image
         src="/orgs.svg"
